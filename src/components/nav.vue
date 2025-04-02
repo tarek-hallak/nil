@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <img id="searchIcon" src="../assets/black-search.svg" width="25" height="25" class="">
             <!-- language icon -->
             <div class="relative flex items-center">
-              <img id="earthIcon" class=" text-gray-500" src="..  /assets/black-earth.png"></img>
+              <img id="earthIcon" class=" text-gray-500" src="../assets/black-earth.png"></img>
               <span
                 class="absolute top-[-8px] right-[-2px] text-[10px] opacity-100 text-blue-500 font-semibold">EN</span>
             </div>
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
       <!-- Hero -->
-      <div class="relative z-10 text-center max-w-2xl py-64">
+      <div class="relative mx-auto text-center max-w-2xl py-64">
         <h1 class="text-4xl sm:text-5xl font-bold mb-6">UNLOCK YOUR BUSINESS POTENTIAL</h1>
         <p class="text-lg sm:text-xl  mb-6">
           Strategic Consulting To Elevate Your Business Heights <br />
