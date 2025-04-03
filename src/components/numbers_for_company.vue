@@ -9,8 +9,13 @@ const counters = ref([
 ]);
 
 const animatedValues = ref(counters.value.map(() => 0));
+const hasAnimated = ref(false);
+const counterSection = ref(null);
 
-onMounted(() => {
+const startCounterAnimation = () => {
+  if (hasAnimated.value) return; // Prevent multiple animations
+  hasAnimated.value = true;
+
   counters.value.forEach((item, index) => {
     let start = 0, duration = 2000;
     let step = () => {
@@ -21,29 +26,33 @@ onMounted(() => {
     start = performance.now();
     requestAnimationFrame(step);
   });
+};
+
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        startCounterAnimation();
+      }
+    },
+    { threshold: 0.5 } // Trigger when 50% of the section is visible
+  );
+
+  if (counterSection.value) {
+    observer.observe(counterSection.value);
+  }
 });
 </script>
 
 <template>
-  <div class="flex flex-col items-center w-full p-4">
-    <div class="overflow-hidden w-full max-w-4xl">
-      <div
-        class="flex transition-transform duration-500 ease-in-out"
-        :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
-      >
-        <div v-for="(logo, index) in logos" :key="index" class="w-full flex-shrink-0 flex justify-center">
-          <img :src="logo.src" :alt="logo.alt" class="h-16 md:h-24 object-contain" />
+  <div class="bg-gray-100">
+    <div class="container mx-auto p-24">
+      <div ref="counterSection" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-center">
+        <div v-for="(item, index) in counters" :key="index">
+          <p class="text-gray-600 font-bold text-6xl">{{ animatedValues[index] }}</p>
+          <p class="mt-6 font-light text-xl">{{ item.label }}</p>
         </div>
       </div>
-    </div>
-    <div class="flex space-x-2 mt-4">
-      <button
-        v-for="(logo, index) in logos"
-        :key="index"
-        @click="currentIndex = index"
-        class="h-3 w-3 rounded-full"
-        :class="currentIndex === index ? 'bg-gray-800' : 'bg-gray-400'"
-      ></button>
     </div>
   </div>
 </template>
